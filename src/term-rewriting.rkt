@@ -137,11 +137,14 @@
 (define algebra-rules
   (alt (rule `(* ,a (+ ,b ,c)) `(+ (* ,a ,b) (* ,a ,c)))
        (rule `(* (+ ,a ,b) ,c) `(+ (* ,a ,b) (* ,a ,c)))
-       (rule `(* ,a 1) 'a)
-       (rule `(*  1 ,a) 'a)
-       (rule `(/  ,a 1) 'a)
-       (rule `(+ ,a 0) 'a)
-       (rule `(+  0 ,a) 'a)
+       (rule `(* ,a 1) a)
+       (rule `(* ,a ,a) `(power ,a))
+       (rule `(*  1 ,a) a)
+       (rule `(/  ,a 1) a)
+       (rule `(/  ,a ,a) 1)
+       (rule `(/ (power ,a) ,a) a)
+       (rule `(+ ,a 0) a)
+       (rule `(+  0 ,a) a)
        (rule `(+ ,a (- ,b ,c)) `(- (+ ,a ,b) ,c))
        (rule `(+ ,a (+ ,b ,c)) `(+ ,a ,b ,c))
        (rule `(+ (+ ,a ,b) ,c) `(+ ,a ,b ,c))))
@@ -153,3 +156,14 @@
 ;(algebra '(+ (+ 2 3) 23))
 ;(algebra '(* (+ 2 3) 23))
 ;(algebra '(* (+ 23 (+ 100 73)) (* (+ 2 3) 23)))
+
+
+;(algebra '(*  (a thing (with something else)) (+ 2 3)))
+; =>
+; '(+ (* (a thing (with something else)) 2) (* (a thing (with something else)) 3))
+
+;(algebra '(* (big red circle) (big red circle)))
+;'(power ,a)
+
+;(algebra '(/ (* (big red circle) (big red circle)) (big red circle)))
+; '(big red circle)
