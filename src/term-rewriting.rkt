@@ -133,6 +133,7 @@
 ; (cnf '(and a (or b (and d e))))
 ; (cnf '(and a (or true (and d e))))
 
+;next: dynamicaly add to those rules
 
 (define algebra-rules
   (alt (rule `(* ,a (+ ,b ,c)) `(+ (* ,a ,b) (* ,a ,c)))
@@ -156,14 +157,26 @@
 ;(algebra '(+ (+ 2 3) 23))
 ;(algebra '(* (+ 2 3) 23))
 ;(algebra '(* (+ 23 (+ 100 73)) (* (+ 2 3) 23)))
-
+;(eval (algebra '(* (+ 23 (+ 100 73)) (* (+ 2 3) 23))))
 
 ;(algebra '(*  (a thing (with something else)) (+ 2 3)))
 ; =>
 ; '(+ (* (a thing (with something else)) 2) (* (a thing (with something else)) 3))
+
+
+
 
 ;(algebra '(* (big red circle) (big red circle)))
 ;'(power ,a)
 
 ;(algebra '(/ (* (big red circle) (big red circle)) (big red circle)))
 ; '(big red circle)
+
+; ./ 
+(define (apply-expr expr bindings)
+  (eval
+   `(let ,bindings
+      ,expr)))
+
+;(apply-expr (algebra '(*  (big red circle) (+ 2 3))) '([red 'red] [circle 'circle]  [big (lambda (color shape) (if (eq? color 'red) 40 0))]) )
+;(apply-expr (algebra '(*  (big red circle) (+ 2 3))) '([red 59] [circle 1000]  [big +]))
