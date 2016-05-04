@@ -180,3 +180,12 @@
 
 ;(apply-expr (algebra '(*  (big red circle) (+ 2 3))) '([red 'red] [circle 'circle]  [big (lambda (color shape) (if (eq? color 'red) 40 0))]) )
 ;(apply-expr (algebra '(*  (big red circle) (+ 2 3))) '([red 59] [circle 1000]  [big +]))
+
+
+(define-syntax in
+  (syntax-rules ()
+      [(in formula ./ bindings) (apply-expr  (algebra formula) bindings)]))
+
+
+;(in '(*  (big red circle) (+ 2 3)) ./ '([red 59] [circle 1000]  [big +]))
+;(in '(*  (big red circle) (+ 2 3)) ./'([red 'red] [circle 'circle]  [big (lambda (color shape) (if (eq? color 'red) 40 0))]) )
