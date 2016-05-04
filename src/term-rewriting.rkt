@@ -186,6 +186,6 @@
   (syntax-rules ()
       [(in formula ./ bindings) (apply-expr  (algebra formula) bindings)]))
 
-
+;(in '(+ 2 2) ./ '([+ (lambda (x y) (+ (* x 100) (* y 10)))]))
 ;(in '(*  (big red circle) (+ 2 3)) ./ '([red 59] [circle 1000]  [big +]))
 ;(in '(*  (big red circle) (+ 2 3)) ./'([red 'red] [circle 'circle]  [big (lambda (color shape) (if (eq? color 'red) 40 0))]) )
