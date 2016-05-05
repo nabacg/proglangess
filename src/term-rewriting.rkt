@@ -135,11 +135,25 @@
 
 ;next: dynamicaly add to those rules
 
+(define derivative-rules
+  (alt
+   (rule `(D (* ,a (power ,x ,n)) ,x) `(* ,a (D (power ,x ,n) ,x)))
+   (rule `(D (power ,x ,n) ,x) `(* ,n (power ,x (- ,n 1))) )
+   ))
+
+; Derivative
+;(algebra '(D (power x n ) x))
+;(algebra '(D  (* 5 (power x 3)) x))
+
 (define algebra-rules
-  (alt (rule `(* ,a (+ ,b ,c)) `(+ (* ,a ,b) (* ,a ,c)))
+  (alt
+   (rule `(* ,a (+ ,b ,c)) `(+ (* ,a ,b) (* ,a ,c)))
        (rule `(* (+ ,a ,b) ,c) `(+ (* ,a ,b) (* ,a ,c)))
+       (rule `(,op ,a) a)
        (rule `(* ,a 1) a)
-       (rule `(* ,a ,a) `(power ,a))
+       (rule `(* ,a 0) 0)
+       (rule `(*  0 ,a) 0)
+       (rule `(* ,a ,a) `(power ,a 2))
        (rule `(*  1 ,a) a)
        (rule `(/  ,a 1) a)
        (rule `(/  ,a ,a) 1)
@@ -151,18 +165,19 @@
        (rule `(+ (+ ,a ,b) ,c) `(+ ,a ,b ,c))))
 
 (define algebra
-  (innermost (alt algebra-rules)))
+  (innermost (alt derivative-rules algebra-rules)))
 
 ;(algebra '(+ 1 (+ 2 3)))
 ;(algebra '(+ (+ 2 3) 23))
 ;(algebra '(* (+ 2 3) 23))
 ;(algebra '(* (+ 23 (+ 100 73)) (* (+ 2 3) 23)))
 ;(eval (algebra '(* (+ 23 (+ 100 73)) (* (+ 2 3) 23))))
+;(algebra '(+ (* 0 x) (* 1 y)))
+; (algebra '(* 12 ))
 
 ;(algebra '(*  (a thing (with something else)) (+ 2 3)))
 ; =>
 ; '(+ (* (a thing (with something else)) 2) (* (a thing (with something else)) 3))
-
 
 
 
@@ -187,5 +202,6 @@
       [(in formula ./ bindings) (apply-expr  (algebra formula) bindings)]))
 
 ;(in '(+ 2 2) ./ '([+ (lambda (x y) (+ (* x 100) (* y 10)))]))
+;  (in '(+ |2| |2|) ./ '([|2| 42]))
 ;(in '(*  (big red circle) (+ 2 3)) ./ '([red 59] [circle 1000]  [big +]))
 ;(in '(*  (big red circle) (+ 2 3)) ./'([red 'red] [circle 'circle]  [big (lambda (color shape) (if (eq? color 'red) 40 0))]) )
