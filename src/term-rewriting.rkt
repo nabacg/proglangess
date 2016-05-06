@@ -137,13 +137,17 @@
 
 (define derivative-rules
   (alt
+   (rule `(D (+ ,f ,g) ,x) `(+ (D ,f ,x) (D ,g ,x)))
    (rule `(D (* ,a (power ,x ,n)) ,x) `(* ,a (D (power ,x ,n) ,x)))
    (rule `(D (power ,x ,n) ,x) `(* ,n (power ,x (- ,n 1))) )
-   ))
+   (rule `(D (* ,a ,x) ,x) `,a)
+   (rule `(D ,a ,x) 0)))
 
 ; Derivative
 ;(algebra '(D (power x n ) x))
 ;(algebra '(D  (* 5 (power x 3)) x))
+;(algebra '(D (+ (power x n ) (* 24 x)) x))
+;'(+ (* n (power x (- n 1))) 24)
 
 (define algebra-rules
   (alt
