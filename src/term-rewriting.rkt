@@ -141,6 +141,7 @@
    (rule `(D (* ,a (power ,x ,n)) ,x) `(* ,a (D (power ,x ,n) ,x)))
    (rule `(D (power ,x ,n) ,x) `(* ,n (power ,x (- ,n 1))) )
    (rule `(D (* ,a ,x) ,x) `,a)
+   (rule `(D (* ,x ,a) ,x) `,a)
    (rule `(D ,a ,x) 0)))
 
 ; Derivative
