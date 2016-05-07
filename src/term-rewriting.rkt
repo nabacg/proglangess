@@ -152,7 +152,8 @@
 (define algebra-rules
   (alt
    (rule `(* ,a (+ ,b ,c)) `(+ (* ,a ,b) (* ,a ,c)))
-       (rule `(* (+ ,a ,b) ,c) `(+ (* ,a ,b) (* ,a ,c)))
+       (rule `(* (+ ,a ,b) ,c) `(+ (* ,a ,c) (* ,b ,c)))
+       (rule `(* ,c (+ ,a ,b)) `(+ (* ,a ,c) (* ,b ,c)))
        (rule `(,op ,a) a)
        (rule `(* ,a 1) a)
        (rule `(* ,a 0) 0)
@@ -184,7 +185,8 @@
 ; '(+ (* (a thing (with something else)) 2) (* (a thing (with something else)) 3))
 
 
-
+;((algebra '(* (big red circle) (+ 2 3)) )
+;'(+ (* (big red circle) 2) (* (big red circle) 3))
 ;(algebra '(* (big red circle) (big red circle)))
 ;'(power ,a)
 
