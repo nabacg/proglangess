@@ -41,7 +41,16 @@ Perhaps another meaning?
 # Symbolic Differentiation
 
 ```
+> (algebra '(D (* 5 x) x))
+5
+
 > (algebra '(D (power x n ) x))
 '(* n (power x (- n 1)))
+
+> (algebra '(D  (* 5 (power x 3)) x))
+'(* 5 (* 3 (power x (- 3 1))))
+
+> (algebra '(D (+ (power x n ) (* 24 x)) x))
+'(+ (* n (power x (- n 1))) 24)
 
 ```
